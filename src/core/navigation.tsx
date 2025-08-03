@@ -10,6 +10,8 @@ import InputHandlingScreen from '../screens/Forms/InputHandlingScreen';
 import TodoScreen from '../screens/Todo/TodoScreen';
 import ResponsiveGridScreen from '../screens/ResponsiveGrid/ResponsiveGridScreen';
 import UseMemoScreen from '../screens/Memo/UseMemoScreen';
+import UserScreen from '../screens/Users/UserScreen';
+import DarkModeScreen from '../screens/DarkMode/DarkModeScreen';
 
 const LeftDrawerScreen = createDrawerNavigator({
     initialRouteName: 'CounterScreen',
@@ -79,6 +81,22 @@ const LeftDrawerScreen = createDrawerNavigator({
                 title: 'UseMemo Example',
                 drawerLabel: 'UseMemo Example',
                 drawerIcon: () => <Icon name="memory" size={24} color="#000" />, // Icon for useMemo example
+            },
+        },
+        UserScreen: {
+            screen: UserScreen,
+            options: {
+                title: 'User List',
+                drawerLabel: 'User List',
+                drawerIcon: () => <Icon name="account-multiple" size={24} color="#000" />, // Icon for user list
+            },
+        },
+        DarkModeScreen: {
+            screen: DarkModeScreen,
+            options: {
+                title: 'Dark Mode',
+                drawerLabel: 'Dark Mode',
+                drawerIcon: () => <Icon name="moon-waning-crescent" size={24} color="#000" />, // Icon for dark mode
             },
         },
     },
