@@ -9,6 +9,7 @@ import TimerScreen from '../screens/Timer/TimerScreen';
 import InputHandlingScreen from '../screens/Forms/InputHandlingScreen';
 import TodoScreen from '../screens/Todo/TodoScreen';
 import ResponsiveGridScreen from '../screens/ResponsiveGrid/ResponsiveGridScreen';
+import UseMemoScreen from '../screens/Memo/UseMemoScreen';
 
 const LeftDrawerScreen = createDrawerNavigator({
     initialRouteName: 'CounterScreen',
@@ -45,7 +46,7 @@ const LeftDrawerScreen = createDrawerNavigator({
             options: {
                 title: 'Timer',
                 drawerLabel: 'Timer',
-                // Timer icon from vector-icons
+                drawerIcon: () => <Icon name="toggle-switch" size={24} color="#000" />,
             },
         },
         InputHandlingScreen: {
@@ -70,6 +71,14 @@ const LeftDrawerScreen = createDrawerNavigator({
                 title: 'Responsive Grid',
                 drawerLabel: 'Responsive Grid',
                 drawerIcon: () => <Icon name="grid" size={24} color="#000" />, // Icon for responsive grid
+            },
+        },
+        UseMemoScreen: {
+            screen: UseMemoScreen,
+            options: {
+                title: 'UseMemo Example',
+                drawerLabel: 'UseMemo Example',
+                drawerIcon: () => <Icon name="memory" size={24} color="#000" />, // Icon for useMemo example
             },
         },
     },
