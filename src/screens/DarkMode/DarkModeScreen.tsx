@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, ViewStyle, TextStyle } from 'react-native';
 
-// Define local colors for light and dark mode
 const lightBackground: string = '#FFFFFF';
 const lightText: string = '#000000';
 const darkBackground: string = '#000000';
