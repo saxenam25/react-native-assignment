@@ -11,7 +11,6 @@ import asyncStorage from '../../core/asyncStorage';
 const date = new Date();
 date.setDate(date.getDate() - 20);
 const formattedDate = date.toISOString().split('T')[0];
-console.log("🚀 ~ formattedDate:", formattedDate)
 
 const NewsReaderScreen = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -82,9 +81,9 @@ const NewsReaderScreen = () => {
     const renderHeader = () => (
         <View style={styles.headerContainer}>
             <Text style={styles.headerTitle}>Top Headlines</Text>
-            {/* <TouchableOpacity style={styles.clearCacheButton} onPress={clearCacheData}>
+            <TouchableOpacity style={styles.clearCacheButton} onPress={clearCacheData}>
                 <Text style={styles.clearCacheText}>Clear Cache</Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
         </View>
     );
 
@@ -120,7 +119,7 @@ const NewsReaderScreen = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            {renderHeader()}
+            {/* {renderHeader()} */}
             <FlatList
                 data={allArticles}
                 renderItem={({ item }) => <NewsArticle article={item} />}
