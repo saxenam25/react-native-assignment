@@ -12,7 +12,7 @@ import ResponsiveGridScreen from '../screens/ResponsiveGrid/ResponsiveGridScreen
 import UseMemoScreen from '../screens/Memo/UseMemoScreen';
 import UserScreen from '../screens/Users/UserScreen';
 import DarkModeScreen from '../screens/DarkMode/DarkModeScreen';
-import NewsReaderScreen from '../screens/NewsReader/NewsReaderScreen';
+import NewsReaderScreen from '../screens/advanced-react-example/NewsReader/NewsReaderScreen';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
