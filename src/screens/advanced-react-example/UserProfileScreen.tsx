@@ -10,7 +10,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 //import { useNavigation } from '@react-navigation/native';
-import AuthenticationService from '../../core/authentication.service';
+import AuthenticationService from '../../core/services/authentication.service';
 import { LoginResponse } from '../../shared/types/login.interface';
 
 const UserProfileScreen: React.FC = () => {

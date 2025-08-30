@@ -1,7 +1,7 @@
 
 import React, { useState, useCallback } from 'react';
 import { View, Text, FlatList, ActivityIndicator, RefreshControl, TouchableOpacity } from 'react-native';
-import useFetch from '../../../core/hooks/useFetch';
+import useFetch from '../../../shared/hooks/useFetch';
 import { NewsApiResponse } from './NewReaders.types';
 import styles from './NewsReader.style';
 import NewsArticle from './NewsArticleCard.component';

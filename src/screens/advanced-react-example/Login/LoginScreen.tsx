@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Alert, StyleSheet, ActivityIndicator } from 'react-native';
 //import { useNavigation } from '@react-navigation/native';
 import PressableButton from '../../../ui-components/PressableButton';
-import AuthenticationService from '../../../core/authentication.service';
+import AuthenticationService from '../../../core/services/authentication.service';
 
 //type LoginScreenProp = StackNavigationProp<RootStackParamList, 'LoginScreen'>;
 const LoginScreen: React.FC = () => {

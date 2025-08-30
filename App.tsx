@@ -1,6 +1,7 @@
 
 import { Platform, StatusBar, StyleSheet, useColorScheme, SafeAreaView } from 'react-native';
-import NavigationWithNestedItem from './src/core/NavigationWithNestedItems';
+import NavigationWithNestedItem from './src/core/navigation/NavigationWithNestedItems';
+import LoginScreen from './src/screens/advanced-react-example/Login/LoginScreen';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -10,7 +11,8 @@ function App() {
       {/* <Text style={styles.text}>Welcome to react native!</Text> */}
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       {/* <Navigation /> */}
-      <NavigationWithNestedItem />
+      {/* <NavigationWithNestedItem /> */}
+      <LoginScreen></LoginScreen>
 
     </SafeAreaView>
   );

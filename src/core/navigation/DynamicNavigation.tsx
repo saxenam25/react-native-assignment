@@ -1,43 +1,29 @@
 
 import { createStaticNavigation } from '@react-navigation/native';
-import CounterScreen from '../screens/Counter/CounterScreen';
-import GreetingCardScreen from '../screens/GreetingCard/GreetingCardScreen';
+import CounterScreen from '../../screens/Counter/CounterScreen';
+import GreetingCardScreen from '../../screens/GreetingCard/GreetingCardScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { HomeIcon } from 'react-native-heroicons/outline';
-import ToggleScreen from '../screens/Toggle/ToggleScreen';
-import TimerScreen from '../screens/Timer/TimerScreen';
-import InputHandlingScreen from '../screens/Forms/InputHandlingScreen';
-import TodoScreen from '../screens/Todo/TodoScreen';
-import ResponsiveGridScreen from '../screens/ResponsiveGrid/ResponsiveGridScreen';
-import UseMemoScreen from '../screens/Memo/UseMemoScreen';
-import UserScreen from '../screens/Users/UserScreen';
-import DarkModeScreen from '../screens/DarkMode/DarkModeScreen';
-import NewsReaderScreen from '../screens/advanced-react-example/NewsReader/NewsReaderScreen';
+import ToggleScreen from '../../screens/Toggle/ToggleScreen';
+import TimerScreen from '../../screens/Timer/TimerScreen';
+import InputHandlingScreen from '../../screens/Forms/InputHandlingScreen';
+import TodoScreen from '../../screens/Todo/TodoScreen';
+import ResponsiveGridScreen from '../../screens/ResponsiveGrid/ResponsiveGridScreen';
+import UseMemoScreen from '../../screens/Memo/UseMemoScreen';
+import UserScreen from '../../screens/Users/UserScreen';
+import DarkModeScreen from '../../screens/DarkMode/DarkModeScreen';
+import NewsReaderScreen from '../../screens/advanced-react-example/NewsReader/NewsReaderScreen';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
+import LoginScreen from '../../screens/advanced-react-example/Login/LoginScreen';
+import UserProfileScreen from '../../screens/advanced-react-example/UserProfileScreen';
+import { advancedRoutes, basicRoutes } from './route.config';
 
 // Custom Drawer Content Component
 const CustomDrawerContent = (props: any) => {
     const [expandedBasic, setExpandedBasic] = React.useState(false);
     const [expandedAdvanced, setExpandedAdvanced] = React.useState(true);
-
-    const basicRoutes = [
-        { name: 'CounterScreen', label: 'Counter', icon: 'access-point-check' },
-        { name: 'GreetingCardScreen', label: 'Greeting Card', icon: 'card' },
-        { name: 'ToggleScreen', label: 'Toggle', icon: 'toggle-switch' },
-        { name: 'TimerScreen', label: 'Timer', icon: 'timer' },
-        { name: 'InputHandlingScreen', label: 'Input Form', icon: 'form-textbox' },
-        { name: 'TodoScreen', label: 'Todo List', icon: 'format-list-bulleted' },
-        { name: 'ResponsiveGridScreen', label: 'Responsive Grid', icon: 'grid' },
-        { name: 'UseMemoScreen', label: 'UseMemo Example', icon: 'memory' },
-        { name: 'UserScreen', label: 'User List', icon: 'account-multiple' },
-        { name: 'DarkModeScreen', label: 'Dark Mode', icon: 'moon-waning-crescent' },
-    ];
-
-    const advancedRoutes = [
-        { name: 'NewsReaderScreen', label: 'News Reader', icon: 'newspaper' },
-    ];
 
     const renderSection = (title: string, routes: any[], expanded: boolean, toggleExpanded: () => void) => (
         <View style={styles.sectionContainer}>
@@ -173,6 +159,22 @@ const LeftDrawerScreen = createDrawerNavigator({
             options: {
                 title: 'News Reader',
                 drawerItemStyle: { display: 'none' },
+            },
+        },
+        LoginScreen: {
+            screen: LoginScreen,
+            options: {
+                title: 'Login',
+                drawerLabel: 'Login',
+                drawerItemStyle: { display: 'none' }, // Hide from default drawer
+            },
+        },
+        UserProfileScreen: {
+            screen: UserProfileScreen,
+            options: {
+                title: 'User Profile',
+                drawerLabel: 'User Profile',
+                drawerItemStyle: { display: 'none' }, // Hide from default drawer
             },
         },
     },
