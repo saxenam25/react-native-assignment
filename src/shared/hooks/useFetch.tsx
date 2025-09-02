@@ -7,7 +7,7 @@ type UseFetchResult<T> = {
     error: Error | null;
 };
 
-function useFetch<T = any>(url: string, asyncStorageKey: string): UseFetchResult<T> {
+function useFetch<T = any>(url: string, asyncStorageKey: string =  ''): UseFetchResult<T> {
     const [data, setData] = useState<T>([] as unknown as T);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<Error | null>(null);
@@ -18,8 +18,10 @@ function useFetch<T = any>(url: string, asyncStorageKey: string): UseFetchResult
                 const response = await fetch(url);
                 const result = await response.json();
                 setData(result);
-                 console.log("🚀 ~ useFetch ~ result from apis:", result);
-                asyncStorage.saveData(asyncStorageKey, result); // Save fetched data to async storage
+                // Only save to async storage if key is provided and valid
+                if (asyncStorageKey && asyncStorageKey.trim() !== '') {
+                    asyncStorage.saveData(asyncStorageKey, result);
+                }
             } catch (error: any) {
                 console.error("Error fetching data:", error);
                 setError(error instanceof Error ? error : new Error(String(error)));
@@ -30,17 +32,19 @@ function useFetch<T = any>(url: string, asyncStorageKey: string): UseFetchResult
 
         const loadData = async () => {
             try {
-                console.log("🚀 ~ useFetch ~ asyncStorageKey:", asyncStorageKey);
-                // Check if data exists in async storage
-                const cachedData = await asyncStorage.getData(asyncStorageKey);
-                console.log("🚀 ~ useFetch ~ cachedData:", cachedData);
-                
-                if (cachedData) {
-                    setData(cachedData);
-                    setLoading(false);
-                } else {
-                    await fetchData();
+                // Only check async storage if key is provided and valid
+                if (asyncStorageKey && asyncStorageKey.trim() !== '') {
+                    // Check if data exists in async storage
+                    const cachedData = await asyncStorage.getData(asyncStorageKey);
+                    if (cachedData) {
+                        setData(cachedData);
+                        setLoading(false);
+                        return; // Exit early if cached data is found
+                    }
                 }
+                
+                // If no async storage key or no cached data, fetch from API
+                await fetchData();
             } catch (error: any) {
                 console.error("Error loading cached data:", error);
                 await fetchData(); // Fallback to fetch if cache fails

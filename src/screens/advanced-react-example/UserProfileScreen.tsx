@@ -9,14 +9,22 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native';
-//import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AuthenticationService from '../../core/services/authentication.service';
 import { LoginResponse } from '../../shared/types/login.interface';
+
+type RootStackParamList = {
+    Login: undefined;
+    Drawer: undefined;
+};
+
+type UserProfileScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const UserProfileScreen: React.FC = () => {
     const [userData, setUserData] = useState<LoginResponse | null>(null);
     const [loading, setLoading] = useState(true);
-  //  const navigation = useNavigation();
+    const navigation = useNavigation<UserProfileScreenNavigationProp>();
 
     useEffect(() => {
         loadUserData();
@@ -28,8 +36,9 @@ const UserProfileScreen: React.FC = () => {
             if (data) {
                 setUserData(data);
             } else {
-                // If no user data found, redirect to login
-                handleLogout();
+                // If no user data found, logout and redirect to login
+                await AuthenticationService.logout();
+                navigation.replace('Login');
             }
         } catch (error) {
             console.error('Error loading user data:', error);
@@ -53,13 +62,9 @@ const UserProfileScreen: React.FC = () => {
                     style: 'destructive',
                     onPress: async () => {
                         try {
-                            const success = await AuthenticationService.logout();
-                            if (success) {
-                                // Navigate to login screen
-                        //        navigation.navigate('LoginScreen' as never);
-                            } else {
-                                Alert.alert('Error', 'Failed to logout. Please try again.');
-                            }
+                            await AuthenticationService.logout();
+                            // Navigate back to Login screen after logout
+                            navigation.replace('Login');
                         } catch (error) {
                             console.error('Logout error:', error);
                             Alert.alert('Error', 'An error occurred during logout.');
@@ -69,16 +74,6 @@ const UserProfileScreen: React.FC = () => {
             ]
         );
     };
-
-    const renderHeader = () => (
-        <View style={styles.header}>
-            <View style={styles.headerLeft} />
-            <Text style={styles.headerTitle}>User Profile</Text>
-            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-                <Text style={styles.logoutButtonText}>Logout</Text>
-            </TouchableOpacity>
-        </View>
-    );
 
     const renderUserInfo = (label: string, value: string | undefined) => (
         <View style={styles.infoRow}>
@@ -109,7 +104,6 @@ const UserProfileScreen: React.FC = () => {
 
     return (
         <View style={styles.container}>
-            {renderHeader()}
             <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
                 {/* Profile Image */}
                 <View style={styles.profileImageContainer}>
@@ -123,7 +117,7 @@ const UserProfileScreen: React.FC = () => {
                 {/* User Information */}
                 <View style={styles.infoContainer}>
                     <Text style={styles.sectionTitle}>Personal Information</Text>
-                    
+
                     {renderUserInfo('First Name', userData.firstName)}
                     {renderUserInfo('Last Name', userData.lastName)}
                     {renderUserInfo('Username', userData.username)}
@@ -131,8 +125,15 @@ const UserProfileScreen: React.FC = () => {
                     {renderUserInfo('Gender', userData.gender)}
                 </View>
 
-              
+
             </ScrollView>
+
+            {/* Fixed Bottom Logout Button */}
+            <View style={styles.bottomContainer}>
+                <TouchableOpacity onPress={handleLogout}>
+                    <Text style={styles.logoutLink}>Logout</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
@@ -142,48 +143,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f5f5f5',
     },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        backgroundColor: '#ffffff',
-        paddingHorizontal: 16,
-        paddingVertical: 12,
-        paddingTop: 50, // Account for status bar
-        borderBottomWidth: 1,
-        borderBottomColor: '#e0e0e0',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-        elevation: 3,
-    },
-    headerLeft: {
-        width: 60, // Placeholder for left spacing
-    },
-    headerTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#333',
-        textAlign: 'center',
-    },
-    logoutButton: {
-        backgroundColor: '#FF3B30',
-        paddingHorizontal: 16,
-        paddingVertical: 8,
-        borderRadius: 6,
-    },
-    logoutButtonText: {
-        color: '#ffffff',
-        fontSize: 14,
-        fontWeight: '600',
-    },
     content: {
         flex: 1,
         padding: 16,
+        paddingTop: 50, // Account for status bar
     },
     profileImageContainer: {
         alignItems: 'center',
@@ -247,6 +210,21 @@ const styles = StyleSheet.create({
         color: '#333',
         flex: 2,
         textAlign: 'right',
+    },
+    bottomContainer: {
+        backgroundColor: '#ffffff',
+        paddingVertical: 20,
+        paddingHorizontal: 16,
+        paddingBottom: 40, // Extra padding for safe area
+        borderTopWidth: 1,
+        borderTopColor: '#e0e0e0',
+        alignItems: 'center',
+    },
+    logoutLink: {
+        fontSize: 16,
+        color: '#FF3B30',
+        fontWeight: '600',
+        textDecorationLine: 'underline',
     },
     loadingContainer: {
         flex: 1,

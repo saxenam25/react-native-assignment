@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Alert, StyleSheet, ActivityIndicator } from 'react-native';
-//import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import PressableButton from '../../../ui-components/PressableButton';
 import AuthenticationService from '../../../core/services/authentication.service';
 
+type RootStackParamList = {
+    Login: undefined;
+    Drawer: undefined;
+};
+
+type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
+
+interface LoginScreenProps {
+    onLoginSuccess?: () => void;
+}
+
 //type LoginScreenProp = StackNavigationProp<RootStackParamList, 'LoginScreen'>;
-const LoginScreen: React.FC = () => {
+const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
     const [username, setUsername] = useState('emilys');
     const [password, setPassword] = useState('emilyspass');
     const [loading, setLoading] = useState(false);
     const [isCheckingToken, setIsCheckingToken] = useState(true);
-   // const navigation = useNavigation();
+   const navigation = useNavigation<LoginScreenNavigationProp>();
 
     // Check for existing token on component mount
     useEffect(() => {
@@ -20,13 +32,13 @@ const LoginScreen: React.FC = () => {
     const checkExistingToken = async () => {
         try {
             const authResult = await AuthenticationService.checkExistingAuthentication();
+            console.log("🚀 ~ authResult:", authResult)
 
             if (authResult.isAuthenticated && authResult.shouldShowAlert) {
                 AuthenticationService.showAutoLoginAlert(
                     () => {
-                        // Navigate to UserProfile screen
-                       // navigation.navigate('UserProfileScreen' as never);
-                        console.log('Auto-login successful');
+                        // Navigate to Drawer on auto-login
+                        navigation.replace('Drawer');
                     },
                     authResult.userData
                 );
@@ -54,8 +66,8 @@ const LoginScreen: React.FC = () => {
 
             if (loginResult.accessToken) {
                 Alert.alert('Success', 'Login successful!');
-                // Navigate to NewsReader screen    
-                // navigation.navigate('NewsReaderScreen');
+                // Navigate to Drawer after successful login using replace
+                navigation.replace('Drawer');
             } else {
                 Alert.alert('Login Failed', loginResult.error || 'Invalid credentials');
             }

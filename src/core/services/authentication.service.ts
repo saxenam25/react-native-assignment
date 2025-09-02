@@ -1,6 +1,6 @@
 import EncryptedStorage from 'react-native-encrypted-storage';
 import { Alert } from 'react-native';
-import { LoginCredentials, LoginResponse } from '../shared/types/login.interface';
+import { LoginCredentials, LoginResponse } from '../../shared/types/login.interface';
 
 export class AuthenticationService {
     private static readonly TOKEN_KEY = 'user_token';
@@ -233,3 +233,28 @@ export class AuthenticationService {
 }
 
 export default AuthenticationService;
+
+
+
+/**
+ * Benefits of using a service layer for authentication
+ * 
+ * 1. Separation of Concerns: Keeps authentication logic separate from UI components.
+ * 2. Reusability: Can be reused across different parts of the app.
+ * 3. Maintainability: Easier to maintain and update authentication logic in one place.
+ * 4. Testability: Simplifies unit testing of authentication functions.
+ * 5. Consistency: Ensures consistent handling of authentication across the app.
+ * 6. Security: Centralizes secure storage and retrieval of sensitive data like tokens.
+ * 7. Scalability: Easier to extend with additional features like multi-factor authentication or OAuth.
+ * 8. Abstraction: Hides implementation details from the rest of the app, providing a clean API.
+ * 9. Error Handling: Centralized error handling for authentication-related issues.
+ * 10. Async Operations: Manages asynchronous operations related to authentication effectively.
+ *
+ * Why custom hook is not good choice?
+ * 
+ * 1. Complexity: Authentication often involves multiple steps (login, logout, token refresh) that can make a custom hook complex and harder to manage.
+ * 2. State Management: A service layer can better handle global state management (e.g., using Context API or Redux) compared to a custom hook which is typically local to a component.
+ * 3. Reusability: A service layer can be easily reused across different components and screens, while a custom hook may lead to code duplication if not managed properly.
+ * 4. Testing: Service layers can be more straightforward to unit test compared to custom hooks, which may require rendering components to test.
+ * 5. Separation of Concerns: A service layer provides a clear separation between business logic and UI logic, which is beneficial for maintainability and scalability.
+ */

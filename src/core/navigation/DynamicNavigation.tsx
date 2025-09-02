@@ -1,5 +1,5 @@
 
-import { createStaticNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import CounterScreen from '../../screens/Counter/CounterScreen';
 import GreetingCardScreen from '../../screens/GreetingCard/GreetingCardScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -19,21 +19,24 @@ import { DrawerContentScrollView } from '@react-navigation/drawer';
 import LoginScreen from '../../screens/advanced-react-example/Login/LoginScreen';
 import UserProfileScreen from '../../screens/advanced-react-example/UserProfileScreen';
 import { advancedRoutes, basicRoutes } from './route.config';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-// Custom Drawer Content Component
+
+const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+
+// Custom Drawer Content Component with Nested Sections
 const CustomDrawerContent = (props: any) => {
-    const [expandedBasic, setExpandedBasic] = React.useState(false);
+    const [expandedBasic, setExpandedBasic] = React.useState(true);
     const [expandedAdvanced, setExpandedAdvanced] = React.useState(true);
 
     const renderSection = (title: string, routes: any[], expanded: boolean, toggleExpanded: () => void) => (
         <View style={styles.sectionContainer}>
             <TouchableOpacity style={styles.sectionHeader} onPress={toggleExpanded}>
                 <View style={styles.sectionHeaderContent}>
-                    <HomeIcon
-                        size={20}
-                        color="#333"
-                    />
+                    {/* <HomeIcon size={15} color="#333" /> */}
                     <Text style={styles.sectionTitle}>{title}</Text>
+                    <Text style={styles.expandIcon}>{expanded ? '−' : '+'}</Text>
                 </View>
             </TouchableOpacity>
 
@@ -45,7 +48,6 @@ const CustomDrawerContent = (props: any) => {
                             style={styles.drawerItem}
                             onPress={() => props.navigation.navigate(route.name)}
                         >
-                            {/* <Icon name={route.icon} size={20} color="#666" style={styles.itemIcon} /> */}
                             <Text style={styles.itemLabel}>{route.label}</Text>
                         </TouchableOpacity>
                     ))}
@@ -56,17 +58,14 @@ const CustomDrawerContent = (props: any) => {
 
     return (
         <DrawerContentScrollView {...props} style={styles.drawerContainer}>
-            {/* <View style={styles.drawerHeader}>
-                <Text style={styles.appTitle}>React Native App</Text>
-            </View> */}
-
+          
             {renderSection(
                 'Basic React Examples',
                 basicRoutes,
                 expandedBasic,
                 () => setExpandedBasic(!expandedBasic)
             )}
-
+            
             {renderSection(
                 'Advanced React Examples',
                 advancedRoutes,
@@ -77,109 +76,100 @@ const CustomDrawerContent = (props: any) => {
     );
 };
 
-const LeftDrawerScreen = createDrawerNavigator({
-    initialRouteName: 'NewsReaderScreen',
-    screenOptions: {
-        drawerPosition: 'left',
-        headerShown: true,
-    },
-    screens: {
-        CounterScreen: {
-            screen: CounterScreen,
-            options: {
-                title: 'Counter',
-                drawerItemStyle: { display: 'none' }, // Hide from default drawer
-            },
-        },
-        GreetingCardScreen: {
-            screen: GreetingCardScreen,
-            options: {
-                title: 'Greeting Card',
-                drawerItemStyle: { display: 'none' },
-            },
-        },
-        ToggleScreen: {
-            screen: ToggleScreen,
-            options: {
-                title: 'Toggle',
-                drawerItemStyle: { display: 'none' },
-            },
-        },
-        TimerScreen: {
-            screen: TimerScreen,
-            options: {
-                title: 'Timer',
-                drawerItemStyle: { display: 'none' },
-            },
-        },
-        InputHandlingScreen: {
-            screen: InputHandlingScreen,
-            options: ({ route }: any) => ({
-                title: route?.params?.dynamicTitle || 'Input Form',
-                drawerItemStyle: { display: 'none' },
-            }),
-        },
-        TodoScreen: {
-            screen: TodoScreen,
-            options: {
-                title: 'Todo List',
-                drawerItemStyle: { display: 'none' },
-            },
-        },
-        ResponsiveGridScreen: {
-            screen: ResponsiveGridScreen,
-            options: {
-                title: 'Responsive Grid',
-                drawerItemStyle: { display: 'none' },
-            },
-        },
-        UseMemoScreen: {
-            screen: UseMemoScreen,
-            options: {
-                title: 'UseMemo Example',
-                drawerItemStyle: { display: 'none' },
-            },
-        },
-        UserScreen: {
-            screen: UserScreen,
-            options: {
-                title: 'User List',
-                drawerItemStyle: { display: 'none' },
-            },
-        },
-        DarkModeScreen: {
-            screen: DarkModeScreen,
-            options: {
-                title: 'Dark Mode',
-                drawerItemStyle: { display: 'none' },
-            },
-        },
-        NewsReaderScreen: {
-            screen: NewsReaderScreen,
-            options: {
-                title: 'News Reader',
-                drawerItemStyle: { display: 'none' },
-            },
-        },
-        LoginScreen: {
-            screen: LoginScreen,
-            options: {
-                title: 'Login',
-                drawerLabel: 'Login',
-                drawerItemStyle: { display: 'none' }, // Hide from default drawer
-            },
-        },
-        UserProfileScreen: {
-            screen: UserProfileScreen,
-            options: {
-                title: 'User Profile',
-                drawerLabel: 'User Profile',
-                drawerItemStyle: { display: 'none' }, // Hide from default drawer
-            },
-        },
-    },
-    drawerContent: (props) => <CustomDrawerContent {...props} />,
-});
+// Drawer for Profile & Settings
+function DrawerNavigator() {
+    return (
+        <Drawer.Navigator 
+            initialRouteName="Profile"
+            drawerContent={(props) => <CustomDrawerContent {...props} />}
+            screenOptions={{
+                drawerStyle: {
+                    backgroundColor: '#f8f9fa',
+                    width: 280,
+                },
+                headerShown: true,
+                headerStyle: {
+                    backgroundColor: '#ffffff',
+                    elevation: 2,
+                    shadowOpacity: 0.1,
+                },
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                    color: '#333',
+                },
+            }}
+        >
+            {/* Basic React Examples */}
+            <Drawer.Screen 
+                name="Counter" 
+                component={CounterScreen}
+                options={{ title: 'Counter' }}
+            />
+            <Drawer.Screen 
+                name="Toggle" 
+                component={ToggleScreen}
+                options={{ title: 'Toggle' }}
+            />
+            <Drawer.Screen 
+                name="Timer" 
+                component={TimerScreen}
+                options={{ title: 'Timer' }}
+            />
+            <Drawer.Screen 
+                name="Input Handling" 
+                component={InputHandlingScreen}
+                options={{ title: 'Input Handling' }}
+            />
+            <Drawer.Screen 
+                name="Todo" 
+                component={TodoScreen}
+                options={{ title: 'Todo List' }}
+            />
+            <Drawer.Screen 
+                name="Responsive Grid" 
+                component={ResponsiveGridScreen}
+                options={{ title: 'Responsive Grid' }}
+            />
+            <Drawer.Screen 
+                name="Use Memo" 
+                component={UseMemoScreen}
+                options={{ title: 'Use Memo' }}
+            />
+            <Drawer.Screen 
+                name="User List" 
+                component={UserScreen}
+                options={{ title: 'User List' }}
+            />
+            <Drawer.Screen 
+                name="Dark Mode" 
+                component={DarkModeScreen}
+                options={{ title: 'Dark Mode' }}
+            />
+            {/* Advanced React Examples */}
+            <Drawer.Screen 
+                name="Profile" 
+                component={UserProfileScreen}
+                options={{ title: 'User Profile' }}
+            />
+            <Drawer.Screen 
+                name="News Reader" 
+                component={NewsReaderScreen}
+                options={{ title: 'News Reader' }}
+            />
+        </Drawer.Navigator>
+    );
+}
+
+// Root Stack Navigator
+export default function RootNavigator() {
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Login" >
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Drawer" component={DrawerNavigator} />
+        </Stack.Navigator>
+    );
+}
+
 
 const styles = StyleSheet.create({
     drawerContainer: {
@@ -187,55 +177,80 @@ const styles = StyleSheet.create({
         backgroundColor: '#f8f9fa',
     },
     drawerHeader: {
+        backgroundColor: '#007AFF',
         padding: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: '#e9ecef',
-        backgroundColor: '#ffffff',
+        paddingTop: 50,
+        marginBottom: 10,
     },
-    appTitle: {
-        fontSize: 18,
+    drawerHeaderText: {
+        color: '#ffffff',
+        fontSize: 20,
         fontWeight: 'bold',
-        color: '#333',
+        textAlign: 'center',
     },
     sectionContainer: {
-        marginVertical: 8,
+        marginBottom: 10,
     },
     sectionHeader: {
         backgroundColor: '#ffffff',
+        paddingHorizontal: 1,
         paddingVertical: 12,
-        paddingHorizontal: 16,
         borderBottomWidth: 1,
-        borderBottomColor: '#e9ecef',
+        borderBottomColor: '#e0e0e0',
+        marginHorizontal: 8,
+        borderRadius: 8,
+        marginBottom: 4,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+        elevation: 2,
     },
     sectionHeaderContent: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
     },
     sectionTitle: {
         fontSize: 16,
-        fontWeight: '600',
+        fontWeight: 'bold',
         color: '#333',
-        marginLeft: 8,
+        flex: 1,
+        marginLeft: 12,
+    },
+    expandIcon: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#666',
+        width: 20,
+        textAlign: 'center',
     },
     sectionItems: {
         backgroundColor: '#ffffff',
+        marginHorizontal: 8,
+        borderRadius: 8,
+        paddingVertical: 4,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 1,
+        elevation: 1,
     },
     drawerItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        paddingHorizontal: 24,
         paddingVertical: 12,
-        paddingHorizontal: 30,
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#f1f3f4',
-    },
-    itemIcon: {
-        marginRight: 12,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f0f0f0',
     },
     itemLabel: {
         fontSize: 14,
-        color: '#666',
+        color: '#555',
+        fontWeight: '500',
     },
 });
-const NavigationWithNestedItem = createStaticNavigation(LeftDrawerScreen);
-
-export default NavigationWithNestedItem;

@@ -1,19 +1,19 @@
 
 import { Platform, StatusBar, StyleSheet, useColorScheme, SafeAreaView } from 'react-native';
-import NavigationWithNestedItem from './src/core/navigation/NavigationWithNestedItems';
-import LoginScreen from './src/screens/advanced-react-example/Login/LoginScreen';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import RootNavigator from './src/core/navigation/DynamicNavigation';
+
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <SafeAreaView style={styles.AndroidSafeArea}>
-      {/* <Text style={styles.text}>Welcome to react native!</Text> */}
+       <SafeAreaView style={styles.AndroidSafeArea}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      {/* <Navigation /> */}
-      {/* <NavigationWithNestedItem /> */}
-      <LoginScreen></LoginScreen>
-
+      <NavigationContainer>
+        <RootNavigator />
+      </NavigationContainer>
     </SafeAreaView>
   );
 }
@@ -35,6 +35,11 @@ const styles = StyleSheet.create({
   statusBar: {
     backgroundColor: '#fff',
     height: StatusBar.currentHeight
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
