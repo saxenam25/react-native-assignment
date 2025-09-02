@@ -1,36 +1,24 @@
 
-import { NavigationContainer } from '@react-navigation/native';
-import CounterScreen from '../../screens/Counter/CounterScreen';
-import GreetingCardScreen from '../../screens/GreetingCard/GreetingCardScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { HomeIcon } from 'react-native-heroicons/outline';
-import ToggleScreen from '../../screens/Toggle/ToggleScreen';
-import TimerScreen from '../../screens/Timer/TimerScreen';
-import InputHandlingScreen from '../../screens/Forms/InputHandlingScreen';
-import TodoScreen from '../../screens/Todo/TodoScreen';
-import ResponsiveGridScreen from '../../screens/ResponsiveGrid/ResponsiveGridScreen';
-import UseMemoScreen from '../../screens/Memo/UseMemoScreen';
-import UserScreen from '../../screens/Users/UserScreen';
-import DarkModeScreen from '../../screens/DarkMode/DarkModeScreen';
-import NewsReaderScreen from '../../screens/advanced-react-example/NewsReader/NewsReaderScreen';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import LoginScreen from '../../screens/advanced-react-example/Login/LoginScreen';
-import UserProfileScreen from '../../screens/advanced-react-example/UserProfileScreen';
-import { advancedRoutes, basicRoutes } from './route.config';
+import { advancedRoutes, basicRoutes, RouteConfig } from './route.config';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
+
+
 // Custom Drawer Content Component with Nested Sections
 const CustomDrawerContent = (props: any) => {
-    const [expandedBasic, setExpandedBasic] = React.useState(true);
+    const [expandedBasic, setExpandedBasic] = React.useState(false);
     const [expandedAdvanced, setExpandedAdvanced] = React.useState(true);
 
-    const renderSection = (title: string, routes: any[], expanded: boolean, toggleExpanded: () => void) => (
+    const renderSection = (title: string, routes: RouteConfig[], expanded: boolean, toggleExpanded: () => void) => (
         <View style={styles.sectionContainer}>
             <TouchableOpacity style={styles.sectionHeader} onPress={toggleExpanded}>
                 <View style={styles.sectionHeaderContent}>
@@ -58,14 +46,14 @@ const CustomDrawerContent = (props: any) => {
 
     return (
         <DrawerContentScrollView {...props} style={styles.drawerContainer}>
-          
+
             {renderSection(
                 'Basic React Examples',
                 basicRoutes,
                 expandedBasic,
                 () => setExpandedBasic(!expandedBasic)
             )}
-            
+
             {renderSection(
                 'Advanced React Examples',
                 advancedRoutes,
@@ -78,84 +66,24 @@ const CustomDrawerContent = (props: any) => {
 
 // Drawer for Profile & Settings
 function DrawerNavigator() {
+    // Combine all routes
+    const allRoutes = [...basicRoutes, ...advancedRoutes];
+
     return (
-        <Drawer.Navigator 
+        <Drawer.Navigator
             initialRouteName="Profile"
             drawerContent={(props) => <CustomDrawerContent {...props} />}
-            screenOptions={{
-                drawerStyle: {
-                    backgroundColor: '#f8f9fa',
-                    width: 280,
-                },
-                headerShown: true,
-                headerStyle: {
-                    backgroundColor: '#ffffff',
-                    elevation: 2,
-                    shadowOpacity: 0.1,
-                },
-                headerTitleStyle: {
-                    fontWeight: 'bold',
-                    color: '#333',
-                },
-            }}
+            screenOptions={drawerScreenOptions}
         >
-            {/* Basic React Examples */}
-            <Drawer.Screen 
-                name="Counter" 
-                component={CounterScreen}
-                options={{ title: 'Counter' }}
-            />
-            <Drawer.Screen 
-                name="Toggle" 
-                component={ToggleScreen}
-                options={{ title: 'Toggle' }}
-            />
-            <Drawer.Screen 
-                name="Timer" 
-                component={TimerScreen}
-                options={{ title: 'Timer' }}
-            />
-            <Drawer.Screen 
-                name="Input Handling" 
-                component={InputHandlingScreen}
-                options={{ title: 'Input Handling' }}
-            />
-            <Drawer.Screen 
-                name="Todo" 
-                component={TodoScreen}
-                options={{ title: 'Todo List' }}
-            />
-            <Drawer.Screen 
-                name="Responsive Grid" 
-                component={ResponsiveGridScreen}
-                options={{ title: 'Responsive Grid' }}
-            />
-            <Drawer.Screen 
-                name="Use Memo" 
-                component={UseMemoScreen}
-                options={{ title: 'Use Memo' }}
-            />
-            <Drawer.Screen 
-                name="User List" 
-                component={UserScreen}
-                options={{ title: 'User List' }}
-            />
-            <Drawer.Screen 
-                name="Dark Mode" 
-                component={DarkModeScreen}
-                options={{ title: 'Dark Mode' }}
-            />
-            {/* Advanced React Examples */}
-            <Drawer.Screen 
-                name="Profile" 
-                component={UserProfileScreen}
-                options={{ title: 'User Profile' }}
-            />
-            <Drawer.Screen 
-                name="News Reader" 
-                component={NewsReaderScreen}
-                options={{ title: 'News Reader' }}
-            />
+            {/* Dynamically render all screens from route config */}
+            {allRoutes.map((route) => (
+                <Drawer.Screen
+                    key={route.name}
+                    name={route.name}
+                    component={route.component}
+                    options={{ title: route.label }}
+                />
+            ))}
         </Drawer.Navigator>
     );
 }
@@ -170,6 +98,23 @@ export default function RootNavigator() {
     );
 }
 
+// Drawer Screen Options Configuration
+const drawerScreenOptions = {
+    drawerStyle: {
+        backgroundColor: '#f8f9fa',
+        width: 280,
+    },
+    headerShown: true,
+    headerStyle: {
+        backgroundColor: '#ffffff',
+        elevation: 2,
+        shadowOpacity: 0.1,
+    },
+    headerTitleStyle: {
+        fontWeight: 'bold' as const,
+        color: '#333',
+    },
+};
 
 const styles = StyleSheet.create({
     drawerContainer: {
