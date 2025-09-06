@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import asyncStorage from '../../core/asyncStorage';
 
 type UseFetchResult<T> = {
@@ -7,16 +7,46 @@ type UseFetchResult<T> = {
     error: Error | null;
 };
 
-function useFetch<T = any>(url: string, asyncStorageKey: string =  ''): UseFetchResult<T> {
+type UseFetchOptions = {
+    delayApiInterval?: number; // Optional delay in milliseconds
+};
+
+function useFetch<T = any>(url: string, asyncStorageKey: string = '', options?: UseFetchOptions): UseFetchResult<T> {
+    console.log("🚀 ~ url:", url)
     const [data, setData] = useState<T>([] as unknown as T);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<Error | null>(null);
 
+    // Memoize the options to prevent unnecessary re-renders
+    const memoizedOptions = useMemo(() => options, [options?.delayApiInterval]);
+
     useEffect(() => {
+        // Reset loading state when URL changes (including refresh key changes)
+        setLoading(true);
+        setError(null);
+        
         const fetchData = async () => {
             try {
+                // Add minimum loading delay if specified in options
+                const startTime = Date.now();
+                
                 const response = await fetch(url);
                 const result = await response.json();
+
+                console.log("🚀 ~ result:", result)
+                
+                // Apply delay only if delayApiInterval is provided
+                if (memoizedOptions?.delayApiInterval) {
+                    // Calculate remaining time to reach the specified delay
+                    const elapsedTime = Date.now() - startTime;
+                    const remainingDelay = Math.max(0, memoizedOptions.delayApiInterval - elapsedTime);
+                    
+                    // Wait for remaining time if needed
+                    if (remainingDelay > 0) {
+                        await new Promise(resolve => setTimeout(resolve, remainingDelay));
+                    }
+                }
+                
                 setData(result);
                 // Only save to async storage if key is provided and valid
                 if (asyncStorageKey && asyncStorageKey.trim() !== '') {
@@ -42,7 +72,7 @@ function useFetch<T = any>(url: string, asyncStorageKey: string =  ''): UseFetch
                         return; // Exit early if cached data is found
                     }
                 }
-                
+
                 // If no async storage key or no cached data, fetch from API
                 await fetchData();
             } catch (error: any) {
@@ -51,8 +81,13 @@ function useFetch<T = any>(url: string, asyncStorageKey: string =  ''): UseFetch
             }
         };
 
-        loadData();
-    }, [url, asyncStorageKey]);
+        // Only proceed if we have a valid URL
+        if (url) {
+            loadData();
+        } else {
+            setLoading(false);
+        }
+    }, [url, asyncStorageKey, memoizedOptions]); // Use memoizedOptions instead of options
 
     return { data, loading, error };
 }

@@ -11,6 +11,7 @@ import UserScreen from '../../screens/Users/UserScreen';
 import DarkModeScreen from '../../screens/DarkMode/DarkModeScreen';
 import NewsReaderScreen from '../../screens/advanced-react-example/NewsReader/NewsReaderScreen';
 import UserProfileScreen from '../../screens/advanced-react-example/UserProfileScreen';
+import WeatherDashboardScreen from '../../screens/advanced-react-example/Weather/WeatherDashboardScreen';
 
 export interface RouteConfig {
     name: string;
@@ -34,6 +35,7 @@ const basicRoutes: RouteConfig[] = [
 const advancedRoutes: RouteConfig[] = [
     { name: 'Profile', label: 'User Profile', component: UserProfileScreen },
     { name: 'News Reader', label: 'News Reader', component: NewsReaderScreen },
+    { name: 'Weather', label: 'Weather App', component: WeatherDashboardScreen },
 ];
 
 export { basicRoutes, advancedRoutes };

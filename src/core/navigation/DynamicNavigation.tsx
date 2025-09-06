@@ -91,7 +91,7 @@ function DrawerNavigator() {
 // Root Stack Navigator
 export default function RootNavigator() {
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Login" >
+        <Stack.Navigator screenOptions={{ headerShown: false }} >
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Drawer" component={DrawerNavigator} />
         </Stack.Navigator>
