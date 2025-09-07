@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
+        paddingBottom: 100, // Add padding for fixed bottom section
         backgroundColor: '#f5f5f5',
     },
     loadingContainer: {
@@ -166,6 +167,46 @@ const styles = StyleSheet.create({
     skeletonInfoValue: {
         width: 100,
         height: 14,
+    },
+    // Bottom refresh section styles
+    bottomRefreshSection: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: '#fff',
+        paddingVertical: 16,
+        paddingHorizontal: 20,
+        borderTopWidth: 1,
+        borderTopColor: '#e0e0e0',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: -2,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 5,
+        alignItems: 'center', // Center all children horizontally
+    },
+    autoRefreshNote: {
+        fontSize: 12,
+        color: '#888',
+        textAlign: 'center',
+        marginBottom: 12,
+    },
+    refreshButton: {
+        backgroundColor: 'transparent',
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 8,
+        justifyContent: 'center',
+    },
+    refreshButtonText: {
+        color: '#007AFF',
+        fontSize: 16,
+        fontWeight: '600',
+        textDecorationLine: 'underline',
     },
 });
 export default styles;

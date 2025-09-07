@@ -2,7 +2,6 @@ import { View } from "react-native";
 import styles from './Weather.style';
 
 const WeatherSkelton = () => {
-    console.log("🚀 ~ Rendering WeatherSkelton");
     return (
         <View style={styles.container}>
             <View style={styles.currentWeather}>

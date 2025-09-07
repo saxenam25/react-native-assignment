@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { View, Text, ActivityIndicator, Alert, PermissionsAndroid, Platform } from 'react-native';
+import { View, Text, ActivityIndicator, Alert, PermissionsAndroid, Platform, TouchableOpacity } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import useFetch from '../../../shared/hooks/useFetch';
 import { WeatherResponse } from './Weather.interface';
@@ -107,6 +107,13 @@ const WeatherDashboardScreen: React.FC = () => {
         } finally {
             setIsRequestingPermission(false);
         }
+    };
+
+    const refreshWeatherData = async () => {
+        // Manual refresh function
+        await asyncStorage.deleteDataByKey(ASYNC_STORAGE_KEY_CURRENT);
+        setRefreshKey(prev => prev + 1);
+        setLastRefresh(new Date());
     };
 
     // Get current location
@@ -250,6 +257,20 @@ const WeatherDashboardScreen: React.FC = () => {
                     </View>
                 </View>
             )}
+            
+            {/* Fixed Bottom Refresh Section */}
+            <View style={styles.bottomRefreshSection}>
+                <Text style={styles.autoRefreshNote}>Data will auto refresh in 10 minutes.</Text>
+                <TouchableOpacity 
+                    style={styles.refreshButton} 
+                    onPress={refreshWeatherData}
+                    disabled={loadingCurrent}
+                >
+                    <Text style={styles.refreshButtonText}>
+                        {loadingCurrent ? 'Refreshing...' : 'Refresh Now'}
+                    </Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };

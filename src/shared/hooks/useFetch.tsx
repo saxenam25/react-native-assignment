@@ -12,7 +12,6 @@ type UseFetchOptions = {
 };
 
 function useFetch<T = any>(url: string, asyncStorageKey: string = '', options?: UseFetchOptions): UseFetchResult<T> {
-    console.log("🚀 ~ url:", url)
     const [data, setData] = useState<T>([] as unknown as T);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<Error | null>(null);
@@ -33,8 +32,6 @@ function useFetch<T = any>(url: string, asyncStorageKey: string = '', options?: 
                 const response = await fetch(url);
                 const result = await response.json();
 
-                console.log("🚀 ~ result:", result)
-                
                 // Apply delay only if delayApiInterval is provided
                 if (memoizedOptions?.delayApiInterval) {
                     // Calculate remaining time to reach the specified delay
