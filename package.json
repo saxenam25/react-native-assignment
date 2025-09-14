@@ -30,6 +30,7 @@
     "react-native-screens": "^4.13.1",
     "react-native-sqlite-storage": "^6.0.1",
     "react-native-svg": "^15.13.0",
+    "react-native-swipe-list-view": "^3.2.9",
     "uuid": "^13.0.0"
   },
   "devDependencies": {

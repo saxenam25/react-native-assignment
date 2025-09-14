@@ -128,20 +128,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: '#95A5A6',
     },
-    removeButton: {
-        backgroundColor: '#E74C3C',
-        borderRadius: 16,
-        width: 32,
-        height: 32,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 12,
-    },
-    removeButtonText: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
     emptyState: {
         alignItems: 'center',
         paddingVertical: 60,
@@ -460,6 +446,38 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 40,
         paddingVertical: 60,
+    },
+    // Swipe Actions Styles
+    rightActionsContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        paddingLeft: 15,
+        marginBottom: 12,
+        backgroundColor: '#F8F9FA',
+    },
+    deleteButton: {
+        backgroundColor: '#E74C3C',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 80,
+        height: '100%',
+        borderTopRightRadius: 12,
+        borderBottomRightRadius: 12,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+    },
+    deleteButtonText: {
+        color: '#FFFFFF',
+        fontSize: 20,
+        fontWeight: 'bold',
     },
 });
 export default styles;

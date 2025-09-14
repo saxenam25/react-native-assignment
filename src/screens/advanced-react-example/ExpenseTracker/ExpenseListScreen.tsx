@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import { SwipeListView } from 'react-native-swipe-list-view';
 import { Expense, dummyExpenses, getCategoryColor } from './ExpenseData';
 import AddExpenseScreen from './AddExpenseScreen';
 import ExpenseChartScreen from './ExpenseChartScreen';
@@ -128,8 +129,16 @@ const ExpenseListScreen = () => {
                     <Text style={styles.expenseDate}>{item.date.toLocaleDateString()}</Text>
                 </View>
             </View>
-            <TouchableOpacity style={styles.removeButton} onPress={() => removeExpense(item.id)}>
-                <Text style={styles.removeButtonText}>✕</Text>
+        </View>
+    );
+
+    const renderHiddenItem = ({ item }: { item: Expense }) => (
+        <View style={styles.rightActionsContainer}>
+            <TouchableOpacity 
+                style={styles.deleteButton}
+                onPress={() => removeExpense(item.id)}
+            >
+                <Text style={styles.deleteButtonText}>✕</Text>
             </TouchableOpacity>
         </View>
     );
@@ -193,10 +202,12 @@ const ExpenseListScreen = () => {
     return (
         <View style={styles.container}>
             {renderHeader()}
-            <FlatList
+            <SwipeListView
                 data={expenses}
                 renderItem={renderExpenseItem}
-                keyExtractor={item => item.id}
+                renderHiddenItem={renderHiddenItem}
+                keyExtractor={(item: Expense) => item.id}
+                rightOpenValue={-80}
                 contentContainerStyle={[
                     styles.listContent,
                     expenses.length === 0 && styles.emptyListContent
