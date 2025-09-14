@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { Expense, dummyExpenses, getCategoryColor } from './ExpenseData';
 import AddExpenseScreen from './AddExpenseScreen';
+import ExpenseChartScreen from './ExpenseChartScreen';
 import { sqliteDB, DatabaseExpense } from './sqlite-expense-db';
 import styles from './Expense.style';
 
@@ -9,6 +10,7 @@ const ExpenseListScreen = () => {
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [showChart, setShowChart] = useState(false);
 
     useEffect(() => {
         initializeDatabase();
@@ -24,7 +26,7 @@ const ExpenseListScreen = () => {
             await sqliteDB.init();
             
             // For testing: Clear database first (remove this in production)
-            await sqliteDB.clearAllExpenses();
+          //  await sqliteDB.clearAllExpenses();
             
             // Check if we need to populate with dummy data
             const count = await sqliteDB.getExpensesCount();
@@ -134,8 +136,24 @@ const ExpenseListScreen = () => {
 
     const renderHeader = () => (
         <View style={styles.header}>
-            <Text style={styles.headerTitle}>My Expenses</Text>
-            <Text style={styles.totalAmount}>Total: Rs. {getTotalAmount()}</Text>
+            <View style={styles.headerLeft}>
+                <Text style={styles.headerTitle}>My Expenses</Text>
+                <Text style={styles.totalAmount}>Total: Rs. {getTotalAmount()}</Text>
+            </View>
+            <View style={styles.headerButtons}>
+                <TouchableOpacity 
+                    style={styles.headerIconButton} 
+                    onPress={() => setShowChart(true)}
+                >
+                    <Text style={styles.headerIconText}>📊</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                    style={styles.headerIconButton} 
+                    onPress={() => setIsModalVisible(true)}
+                >
+                    <Text style={styles.headerIconText}>+</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 
@@ -163,6 +181,15 @@ const ExpenseListScreen = () => {
         return renderLoading();
     }
 
+    if (showChart) {
+        return (
+            <ExpenseChartScreen 
+                expenses={expenses}
+                onClose={() => setShowChart(false)}
+            />
+        );
+    }
+
     return (
         <View style={styles.container}>
             {renderHeader()}
@@ -177,12 +204,6 @@ const ExpenseListScreen = () => {
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={renderEmptyState}
             />
-            <TouchableOpacity 
-                style={styles.addButton} 
-                onPress={() => setIsModalVisible(true)}
-            >
-                <Text style={styles.addButtonText}>+ Add Expense</Text>
-            </TouchableOpacity>
 
             <AddExpenseScreen 
                 isVisible={isModalVisible}
