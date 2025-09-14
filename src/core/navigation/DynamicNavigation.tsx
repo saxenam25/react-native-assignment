@@ -68,6 +68,7 @@ const CustomDrawerContent = (props: any) => {
 function DrawerNavigator() {
     // Combine all routes
     const allRoutes = [...basicRoutes, ...advancedRoutes];
+    console.log("🚀 ~ allRoutes:", allRoutes)
 
     return (
         <Drawer.Navigator

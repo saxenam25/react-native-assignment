@@ -13,6 +13,7 @@ import NewsReaderScreen from '../../screens/advanced-react-example/NewsReader/Ne
 import UserProfileScreen from '../../screens/advanced-react-example/UserProfileScreen';
 import WeatherDashboardScreen from '../../screens/advanced-react-example/Weather/WeatherDashboardScreen';
 import ProductListScreen from '../../screens/advanced-react-example/ProductList/ProductListScreen';
+import ExpenseListScreen from '../../screens/advanced-react-example/ExpenseTracker/ExpenseListScreen';
 
 export interface RouteConfig {
     name: string;
@@ -30,7 +31,7 @@ const basicRoutes: RouteConfig[] = [
     { name: 'Use Memo', label: 'Use Memo', component: UseMemoScreen },
     { name: 'User List', label: 'User List', component: UserScreen },
     { name: 'Greeting Card', label: 'Greeting Card', component: GreetingCardScreen },
-    { name: 'Dark Mode', label: 'Dark Mode', component: DarkModeScreen },
+    { name: 'Dark Mode', label: 'Dark Mode', component: DarkModeScreen }
 ];
 
 const advancedRoutes: RouteConfig[] = [
@@ -38,6 +39,7 @@ const advancedRoutes: RouteConfig[] = [
     { name: 'News Reader', label: 'News Reader', component: NewsReaderScreen },
     { name: 'Weather', label: 'Weather App', component: WeatherDashboardScreen },
     { name: 'Product Search', label: 'Product Search', component: ProductListScreen },
+    { name: 'Expense Tracker', label: 'Expense Tracker', component: ExpenseListScreen },
 ];
 
 export { basicRoutes, advancedRoutes };
