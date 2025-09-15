@@ -67,6 +67,98 @@ A comprehensive React Native application showcasing both basic and advanced Reac
 - **Navigation Patterns**: Screen transitions, tab navigation, and deep linking implementation
 - **Theme Management**: Dark/light mode switching with persistent user preferences
 
+## 📁 Folder Structure
+
+```
+src/
+├── screens/
+│   ├── basic-react-examples/
+│   │   ├── Counter/
+│   │   │   ├── CounterScreen.tsx        # Simple state management
+│   │   │   └── Counter.style.ts         # Counter styling
+│   │   ├── DarkMode/
+│   │   │   ├── DarkModeScreen.tsx       # Theme switching
+│   │   │   └── DarkMode.style.ts        # Dark mode styling
+│   │   ├── Forms/
+│   │   │   ├── InputHandlingScreen.tsx  # Input handling & validation
+│   │   │   └── Forms.style.ts           # Form styling
+│   │   ├── GreetingCard/
+│   │   │   ├── GreetingCardScreen.tsx   # Component composition
+│   │   │   ├── CardComponent.tsx        # Card component
+│   │   │   └── GreetingCard.style.ts    # Card styling
+│   │   ├── Memo/
+│   │   │   ├── UseMemoScreen.tsx        # Performance optimization
+│   │   │   ├── UseMemoChildComponent.tsx # Child component
+│   │   │   └── Memo.style.ts            # Memo styling
+│   │   ├── NewsReader/
+│   │   │   ├── NewsReaderScreen.tsx     # Basic news reader
+│   │   │   └── NewsReader.style.ts      # News styling
+│   │   ├── ResponsiveGrid/
+│   │   │   ├── ResponsiveGridScreen.tsx # Responsive layouts
+│   │   │   └── ResponsiveGrid.style.ts  # Grid styling
+│   │   ├── Timer/
+│   │   │   ├── TimerScreen.tsx          # useEffect & intervals
+│   │   │   └── Timer.style.ts           # Timer styling
+│   │   ├── Todo/
+│   │   │   ├── TodoScreen.tsx           # Task management
+│   │   │   └── Todo.style.ts            # Todo styling
+│   │   ├── Toggle/
+│   │   │   ├── ToggleScreen.tsx         # Boolean state
+│   │   │   └── Toggle.style.ts          # Toggle styling
+│   │   └── Users/
+│   │       ├── UserScreen.tsx           # Data mapping
+│   │       └── Users.style.ts           # User styling
+│   └── advanced-react-example/
+│       ├── ExpenseTracker/
+│       │   ├── ExpenseListScreen.tsx    # Main expense interface
+│       │   ├── AddExpenseScreen.tsx     # Add expense modal
+│       │   ├── ExpenseChartScreen.tsx   # Data visualization
+│       │   ├── ExpenseFileManager.ts    # Backup/restore
+│       │   ├── sqlite-expense-db.ts     # Database service
+│       │   ├── ExpenseData.ts           # Types & utilities
+│       │   └── Expense.style.ts         # Component styling
+│       ├── Login/
+│       │   ├── LoginScreen.tsx          # Main login interface
+│       │   ├── AuthService.ts           # Authentication logic
+│       │   └── Login.style.ts           # Login styling
+│       ├── NewsReader/
+│       │   ├── NewsReaderScreen.tsx     # News list interface
+│       │   ├── NewsDetailScreen.tsx     # Article detail view
+│       │   ├── NewsService.ts           # API integration
+│       │   └── News.style.ts            # News styling
+│       ├── ProductList/
+│       │   ├── ProductListScreen.tsx    # Product list with filters
+│       │   ├── ProductFilterModal.tsx   # Filter modal component
+│       │   ├── ProductData.ts           # Product types & data
+│       │   └── Product.style.ts         # Product styling
+│       ├── Weather/
+│       │   ├── WeatherDashboardScreen.tsx  # Main weather interface
+│       │   ├── WeatherService.ts           # Weather API integration
+│       │   ├── LocationService.ts          # GPS & location handling
+│       │   └── Weather.style.ts            # Weather styling
+│       └── UserProfileScreen.tsx        # User management
+├── ui-components/
+│   ├── PressableButton.tsx      # Reusable button
+│   └── ToastComponent.tsx       # Custom notifications
+├── core/
+│   ├── asyncStorage.ts          # AsyncStorage utilities
+│   ├── context/
+│   │   └── AuthContext.tsx      # Authentication context
+│   ├── navigation/
+│   │   ├── navigation.tsx       # Main navigation
+│   │   ├── route.config.ts      # Route configuration
+│   │   └── DynamicNavigation.tsx # Dynamic navigation
+│   └── services/
+│       └── authentication.service.ts # Auth service
+├── shared/
+│   ├── hooks/
+│   │   ├── useFetch.tsx         # Custom fetch hook
+│   │   └── useLocation.tsx      # Location hook
+│   └── types/
+│       └── login.interface.ts   # Login type definitions
+├── data.json                    # Static data
+└── README.md                    # Project documentation
+```
 
 ## 📱 Advanced React Examples
 
