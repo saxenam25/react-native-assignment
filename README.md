@@ -2,6 +2,30 @@
 
 A comprehensive React Native application showcasing both basic and advanced React patterns with multiple feature demonstrations.
 
+
+## 📸 Screenshots
+
+<table>
+  <tr>
+    <td><img src="images/app-menu.png" alt="App Menu" width="200" /></td>
+    <td><img src="images/expense list.png" alt="Expense List" width="200" /></td>
+    <td><img src="images/add expense.png" alt="Add Expense" width="200" /></td>
+    <td><img src="images/expense chart.png" alt="Expense Chart" width="200" /></td>
+  </tr>
+  <tr>
+    <td><img src="images/products.png" alt="Products" width="200" /></td>
+    <td><img src="images/add products.png" alt="Add Products" width="200" /></td>
+    <td><img src="images/news.png" alt="News Reader" width="200" /></td>
+    <td><img src="images/weather.png" alt="Weather" width="200" /></td>
+  </tr>
+  <tr>
+    <td><img src="images/weather skelton.png" alt="Weather Skeleton" width="200" /></td>
+    <td><img src="images/profile.png" alt="Profile" width="200" /></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+
 ## 📱 Advanced React Examples
 
 ### ExpenseTracker
@@ -54,9 +78,6 @@ Delivers non-intrusive success, error, and info messages with customizable posit
 **react-native-fs**: File system operations for backup, restore, and data export features.
 Handles document storage, file validation, and cross-platform file management.
 
-## 📸 Screenshots
-
-![App Menu](images/app-menu.png)
 
 ## 🚀 How to Run
 
