@@ -4,6 +4,7 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { Expense, dummyExpenses, getCategoryColor } from './ExpenseData';
 import AddExpenseScreen from './AddExpenseScreen';
 import ExpenseChartScreen from './ExpenseChartScreen';
+import ExpenseFileManager from './ExpenseFileManager';
 import { sqliteDB, DatabaseExpense } from './sqlite-expense-db';
 import styles from './Expense.style';
 
@@ -12,6 +13,7 @@ const ExpenseListScreen = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [loading, setLoading] = useState(true);
     const [showChart, setShowChart] = useState(false);
+    const [showSettingsMenu, setShowSettingsMenu] = useState(false);
 
     useEffect(() => {
         initializeDatabase();
@@ -116,6 +118,75 @@ const ExpenseListScreen = () => {
         }
     };
 
+    const handleBackupData = async () => {
+        setShowSettingsMenu(false);
+        try {
+            await ExpenseFileManager.backupExpensesToFile(expenses);
+            Alert.alert('Success', 'Data backed up successfully!');
+        } catch (error: any) {
+            Alert.alert('Error', `Backup failed: ${error.message}`);
+        }
+    };
+
+    const handleRestoreData = async () => {
+        setShowSettingsMenu(false);
+        try {
+            const restoredExpenses = await ExpenseFileManager.restoreExpensesFromFile();
+            if (restoredExpenses && restoredExpenses.length > 0) {
+                // Clear existing data and restore from backup
+                await sqliteDB.clearAllExpenses();
+                
+                // Convert Expense[] to DatabaseExpense[]
+                const dbExpenses = restoredExpenses.map(expense => ({
+                    id: expense.id,
+                    name: expense.name,
+                    amount: expense.amount,
+                    category: expense.category,
+                    date: expense.date.toISOString()
+                }));
+                
+                await sqliteDB.bulkInsertExpenses(dbExpenses);
+                await loadExpensesFromDB(); // Refresh the list
+                Alert.alert('Success', `Restored ${restoredExpenses.length} expenses from backup!`);
+            }
+        } catch (error: any) {
+            Alert.alert('Error', `Restore failed: ${error.message}`);
+        }
+    };
+
+    const handleDeleteBackup = async () => {
+        setShowSettingsMenu(false);
+        try {
+            await ExpenseFileManager.deleteBackupFile();
+        } catch (error: any) {
+            Alert.alert('Error', `Delete backup failed: ${error.message}`);
+        }
+    };
+
+    const handleClearAll = async () => {
+        setShowSettingsMenu(false);
+        Alert.alert(
+            "Clear All Expenses",
+            "Are you sure you want to delete all expenses? This action cannot be undone.",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Clear All",
+                    style: "destructive",
+                    onPress: async () => {
+                        try {
+                            await sqliteDB.clearAllExpenses();
+                            await loadExpensesFromDB(); // Refresh the list
+                            Alert.alert('Success', 'All expenses have been cleared!');
+                        } catch (error: any) {
+                            Alert.alert('Error', `Failed to clear expenses: ${error.message}`);
+                        }
+                    }
+                }
+            ]
+        );
+    };
+
     const renderExpenseItem = ({ item }: { item: Expense }) => (
         <View style={styles.expenseItem}>
             <View style={[styles.categoryIndicator, { backgroundColor: getCategoryColor(item.category) }]} />
@@ -131,6 +202,45 @@ const ExpenseListScreen = () => {
             </View>
         </View>
     );
+
+    const renderSettingsMenu = () => {
+        if (!showSettingsMenu) return null;
+
+        return (
+            <View style={styles.settingsMenuOverlay}>
+                <TouchableOpacity 
+                    style={styles.settingsMenuBackdrop}
+                    onPress={() => setShowSettingsMenu(false)}
+                />
+                <View style={styles.settingsMenu}>
+                    <TouchableOpacity 
+                        style={styles.settingsMenuItem}
+                        onPress={handleBackupData}
+                    >
+                        <Text style={styles.settingsMenuText}>💾 Backup Data</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={styles.settingsMenuItem}
+                        onPress={handleRestoreData}
+                    >
+                        <Text style={styles.settingsMenuText}>📁 Restore Data</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={styles.settingsMenuItem}
+                        onPress={handleDeleteBackup}
+                    >
+                        <Text style={[styles.settingsMenuText, styles.settingsMenuTextDanger]}>🗑️ Delete Backup</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={[styles.settingsMenuItem, styles.settingsMenuItemLast]}
+                        onPress={handleClearAll}
+                    >
+                        <Text style={[styles.settingsMenuText, styles.settingsMenuTextDanger]}>🧹 Clear All</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
+    };
 
     const renderHiddenItem = ({ item }: { item: Expense }) => (
         <View style={styles.rightActionsContainer}>
@@ -161,6 +271,12 @@ const ExpenseListScreen = () => {
                     onPress={() => setIsModalVisible(true)}
                 >
                     <Text style={styles.headerIconText}>+</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                    style={styles.headerIconButton} 
+                    onPress={() => setShowSettingsMenu(!showSettingsMenu)}
+                >
+                    <Text style={styles.headerIconText}>⚙️</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -215,6 +331,8 @@ const ExpenseListScreen = () => {
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={renderEmptyState}
             />
+
+            {renderSettingsMenu()}
 
             <AddExpenseScreen 
                 isVisible={isModalVisible}

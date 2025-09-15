@@ -479,5 +479,54 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
     },
+    // Settings Menu Styles
+    settingsMenuOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 1000,
+    },
+    settingsMenuBackdrop: {
+        flex: 1,
+        backgroundColor: 'transparent',
+    },
+    settingsMenu: {
+        position: 'absolute',
+        top: 70,
+        right: 20,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 12,
+        paddingVertical: 8,
+        minWidth: 160,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.15,
+        shadowRadius: 8,
+        elevation: 8,
+        borderWidth: 1,
+        borderColor: '#E9ECEF',
+    },
+    settingsMenuItem: {
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        borderBottomWidth: 1,
+        borderBottomColor: '#F8F9FA',
+    },
+    settingsMenuItemLast: {
+        borderBottomWidth: 0,
+    },
+    settingsMenuText: {
+        fontSize: 16,
+        color: '#2C3E50',
+        fontWeight: '500',
+    },
+    settingsMenuTextDanger: {
+        color: '#E74C3C',
+    },
 });
 export default styles;
