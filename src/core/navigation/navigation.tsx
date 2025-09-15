@@ -1,17 +1,17 @@
 
 import { createStaticNavigation } from '@react-navigation/native';
-import CounterScreen from '../../screens/Counter/CounterScreen';
-import GreetingCardScreen from '../../screens/GreetingCard/GreetingCardScreen';
+import CounterScreen from '../../screens/basic-react-examples/Counter/CounterScreen';
+import GreetingCardScreen from '../../screens/basic-react-examples/GreetingCard/GreetingCardScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import ToggleScreen from '../../screens/Toggle/ToggleScreen';
-import TimerScreen from '../../screens/Timer/TimerScreen';
-import InputHandlingScreen from '../../screens/Forms/InputHandlingScreen';
-import TodoScreen from '../../screens/Todo/TodoScreen';
-import ResponsiveGridScreen from '../../screens/ResponsiveGrid/ResponsiveGridScreen';
-import UseMemoScreen from '../../screens/Memo/UseMemoScreen';
-import UserScreen from '../../screens/Users/UserScreen';
-import DarkModeScreen from '../../screens/DarkMode/DarkModeScreen';
+import ToggleScreen from '../../screens/basic-react-examples/Toggle/ToggleScreen';
+import TimerScreen from '../../screens/basic-react-examples/Timer/TimerScreen';
+import InputHandlingScreen from '../../screens/basic-react-examples/Forms/InputHandlingScreen';
+import TodoScreen from '../../screens/basic-react-examples/Todo/TodoScreen';
+import ResponsiveGridScreen from '../../screens/basic-react-examples/ResponsiveGrid/ResponsiveGridScreen';
+import UseMemoScreen from '../../screens/basic-react-examples/Memo/UseMemoScreen';
+import UserScreen from '../../screens/basic-react-examples/Users/UserScreen';
+import DarkModeScreen from '../../screens/basic-react-examples/DarkMode/DarkModeScreen';
 
 const LeftDrawerScreen = createDrawerNavigator({
     initialRouteName: 'CounterScreen',

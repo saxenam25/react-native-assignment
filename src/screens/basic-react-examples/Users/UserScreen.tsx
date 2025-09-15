@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, ListRenderItem } from 'react-native';
-import useFetch from '../../shared/hooks/useFetch';
+import useFetch from '../../../shared/hooks/useFetch';
 
 const USERS_API_URL = 'https://jsonplaceholder.typicode.com/users';
 

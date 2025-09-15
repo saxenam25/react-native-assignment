@@ -1,7 +1,7 @@
 //create function component for ToggleScreen
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import PressableButton from '../../ui-components/PressableButton';
+import PressableButton from '../../../ui-components/PressableButton';
 const ToggleScreen: React.FC = () => {
     const [isToggled, setIsToggled] = React.useState(false);
     return (

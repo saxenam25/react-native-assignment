@@ -1,7 +1,7 @@
 // create a todo screen that allows users to add, remove, and display todo items. to add todo item, take a text input box and a button to add that task in below list item. every list item must contain delete icon as well and when delete , remove that item from itemsarray state. when no item in list, show gray color text like no itemsm added.
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, FlatList } from 'react-native';
-import PressableButton from '../../ui-components/PressableButton';
+import PressableButton from '../../../ui-components/PressableButton';
 
 const TodoScreen = () => {
     const [task, setTask] = useState('');

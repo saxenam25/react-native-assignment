@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import PressableButton from '../../ui-components/PressableButton';
+import PressableButton from '../../../ui-components/PressableButton';
 const InputHandlingScreen: React.FC = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');

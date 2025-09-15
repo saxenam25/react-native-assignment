@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, TextInput } from 'react-native';
-import PressableButton from '../../ui-components/PressableButton';
+import PressableButton from '../../../ui-components/PressableButton';
 
 function CounterScreen() {
     const [count, setCount] = React.useState(0);
