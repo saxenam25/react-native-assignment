@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import Toast from 'react-native-toast-message';
 import { Expense, dummyExpenses, getCategoryColor } from './ExpenseData';
 import AddExpenseScreen from './AddExpenseScreen';
 import ExpenseChartScreen from './ExpenseChartScreen';
@@ -69,7 +70,11 @@ const ExpenseListScreen = () => {
             setExpenses(expenses);
         } catch (error) {
             console.error('Failed to load expenses from database:', error);
-            Alert.alert('Error', 'Failed to load expenses');
+            Toast.show({
+                type: 'error',
+                text1: 'Load Failed',
+                text2: 'Failed to load expenses'
+            });
         }
     };
 
@@ -86,9 +91,18 @@ const ExpenseListScreen = () => {
                         try {
                             await sqliteDB.deleteExpense(id);
                             await loadExpensesFromDB(); // Refresh the list
+                            Toast.show({
+                                type: 'success',
+                                text1: 'Expense Removed',
+                                text2: 'Expense deleted successfully!'
+                            });
                         } catch (error) {
                             console.error('Failed to remove expense:', error);
-                            Alert.alert('Error', 'Failed to remove expense');
+                            Toast.show({
+                                type: 'error',
+                                text1: 'Remove Failed',
+                                text2: 'Failed to remove expense'
+                            });
                         }
                     }
                 }
@@ -112,9 +126,18 @@ const ExpenseListScreen = () => {
             
             await sqliteDB.insertExpense(databaseExpense);
             await loadExpensesFromDB(); // Refresh the list
+            Toast.show({
+                type: 'success',
+                text1: 'Expense Added',
+                text2: `${expense.name} added successfully!`
+            });
         } catch (error) {
             console.error('Failed to add expense:', error);
-            Alert.alert('Error', 'Failed to add expense');
+            Toast.show({
+                type: 'error',
+                text1: 'Add Failed',
+                text2: 'Failed to add expense'
+            });
         }
     };
 
@@ -122,9 +145,17 @@ const ExpenseListScreen = () => {
         setShowSettingsMenu(false);
         try {
             await ExpenseFileManager.backupExpensesToFile(expenses);
-            Alert.alert('Success', 'Data backed up successfully!');
+            Toast.show({
+                type: 'success',
+                text1: 'Backup Successful',
+                text2: 'Data backed up successfully!'
+            });
         } catch (error: any) {
-            Alert.alert('Error', `Backup failed: ${error.message}`);
+            Toast.show({
+                type: 'error',
+                text1: 'Backup Failed',
+                text2: error.message
+            });
         }
     };
 
@@ -147,10 +178,18 @@ const ExpenseListScreen = () => {
                 
                 await sqliteDB.bulkInsertExpenses(dbExpenses);
                 await loadExpensesFromDB(); // Refresh the list
-                Alert.alert('Success', `Restored ${restoredExpenses.length} expenses from backup!`);
+                Toast.show({
+                    type: 'success',
+                    text1: 'Restore Successful',
+                    text2: `Restored ${restoredExpenses.length} expenses from backup!`
+                });
             }
         } catch (error: any) {
-            Alert.alert('Error', `Restore failed: ${error.message}`);
+            Toast.show({
+                type: 'error',
+                text1: 'Restore Failed',
+                text2: error.message
+            });
         }
     };
 
@@ -159,7 +198,11 @@ const ExpenseListScreen = () => {
         try {
             await ExpenseFileManager.deleteBackupFile();
         } catch (error: any) {
-            Alert.alert('Error', `Delete backup failed: ${error.message}`);
+            Toast.show({
+                type: 'error',
+                text1: 'Delete Failed',
+                text2: error.message
+            });
         }
     };
 
@@ -177,9 +220,17 @@ const ExpenseListScreen = () => {
                         try {
                             await sqliteDB.clearAllExpenses();
                             await loadExpensesFromDB(); // Refresh the list
-                            Alert.alert('Success', 'All expenses have been cleared!');
+                            Toast.show({
+                                type: 'success',
+                                text1: 'Clear Successful',
+                                text2: 'All expenses have been cleared!'
+                            });
                         } catch (error: any) {
-                            Alert.alert('Error', `Failed to clear expenses: ${error.message}`);
+                            Toast.show({
+                                type: 'error',
+                                text1: 'Clear Failed',
+                                text2: error.message
+                            });
                         }
                     }
                 }
@@ -339,6 +390,85 @@ const ExpenseListScreen = () => {
                 onClose={() => setIsModalVisible(false)}
                 onAddExpense={handleAddExpense}
                 expenseCount={expenses.length}
+            />
+
+            <Toast 
+                position='bottom'
+                bottomOffset={60}
+                config={{
+                    success: (props) => (
+                        <View style={{
+                            height: 60,
+                            width: '90%',
+                            backgroundColor: '#4CAF50',
+                            borderRadius: 8,
+                            paddingHorizontal: 16,
+                            paddingVertical: 12,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            shadowColor: '#000',
+                            shadowOffset: { width: 0, height: 2 },
+                            shadowOpacity: 0.25,
+                            shadowRadius: 3.84,
+                            elevation: 5,
+                        }}>
+                            <Text style={{ fontSize: 18, marginRight: 8 }}>✅</Text>
+                            <View style={{ flex: 1 }}>
+                                <Text style={{ 
+                                    color: 'white', 
+                                    fontSize: 16, 
+                                    fontWeight: 'bold',
+                                    marginBottom: 2 
+                                }}>
+                                    {props.text1}
+                                </Text>
+                                <Text style={{ 
+                                    color: 'white', 
+                                    fontSize: 14,
+                                    opacity: 0.9 
+                                }}>
+                                    {props.text2}
+                                </Text>
+                            </View>
+                        </View>
+                    ),
+                    error: (props) => (
+                        <View style={{
+                            height: 60,
+                            width: '90%',
+                            backgroundColor: '#F44336',
+                            borderRadius: 8,
+                            paddingHorizontal: 16,
+                            paddingVertical: 12,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            shadowColor: '#000',
+                            shadowOffset: { width: 0, height: 2 },
+                            shadowOpacity: 0.25,
+                            shadowRadius: 3.84,
+                            elevation: 5,
+                        }}>
+                            <Text style={{ fontSize: 18, marginRight: 8 }}>❌</Text>
+                            <View style={{ flex: 1 }}>
+                                <Text style={{ 
+                                    color: 'white', 
+                                    fontSize: 16, 
+                                    fontWeight: 'bold',
+                                    marginBottom: 2 
+                                }}>
+                                    {props.text1}
+                                </Text>
+                                <Text style={{ 
+                                    color: 'white', 
+                                    fontSize: 14,
+                                    opacity: 0.9 
+                                }}>
+                                    {props.text2}
+                                </Text>
+                            </View>
+                        </View>
+                    ),
+                }}
             />
         </View>
     );
