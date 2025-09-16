@@ -26,6 +26,12 @@ A comprehensive React Native application showcasing both basic and advanced Reac
     <td></td>
     <td></td>
   </tr>
+   <tr>
+    <td><img src="images/backup.png" alt="Products" width="200" /></td>
+    <td><img src="images/delete.png" alt="Add Products" width="200" /></td>
+    <td><img src="images/noexpense.png" alt="News Reader" width="200" /></td>
+    <td></td>
+  </tr>
 </table>
 
 
