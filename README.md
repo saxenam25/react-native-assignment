@@ -23,8 +23,6 @@ A comprehensive React Native application showcasing both basic and advanced Reac
     <td><img src="images/profile.png" alt="Profile" width="200" /></td>
      <td><img src="images/login.png" alt="Profile" width="200" /></td>
       <td><img src="images/already-login.png" alt="Profile" width="200" /></td>
-    <td></td>
-    <td></td>
   </tr>
    <tr>
     <td><img src="images/backup.png" alt="Products" width="200" /></td>
